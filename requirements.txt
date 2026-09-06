@@ -13,3 +13,4 @@ requests
 beautifulsoup4
 langdetect
 websocket-client
+gunicorn
