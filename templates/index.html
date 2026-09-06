@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="GPG AI Admission Assistant - Official admission support"
+    >
+
+    <title>GPG AI Admission Assistant</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         MAIN CHAT CONTAINER
+         ===================================================== -->
+
+    <main class="chat-container">
+
+
+        <!-- =================================================
+             HEADER
+             ================================================= -->
+
+        <header class="chat-header">
+
+
+            <div class="header-left">
+
+
+                <div class="logo-wrapper">
+
+                    <img
+                        src="{{ url_for('static', filename='images/logo.png') }}"
+                        class="college-logo"
+                        alt="GPG College Logo"
+                    >
+
+                </div>
+
+
+                <div class="header-info">
+
+                    <h1>
+                        GPG Admission Assistant
+                    </h1>
+
+                    <div class="online-status">
+
+                        <span class="status-dot"></span>
+
+                        <span>
+                            Online • Ready to help
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div
+                class="header-badge"
+                aria-label="Artificial Intelligence"
+            >
+                AI
+            </div>
+
+
+        </header>
+
+
+        <!-- =================================================
+             CHAT AREA
+             ================================================= -->
+
+        <section
+            class="chat-box"
+            id="chat-box"
+            aria-live="polite"
+            aria-label="Conversation"
+        >
+
+
+            <!-- =============================================
+                 INITIAL AI MESSAGE
+                 ============================================= -->
+
+            <div class="message bot-message">
+
+
+                <img
+                    src="{{ url_for('static', filename='images/bot.png') }}"
+                    class="avatar"
+                    alt="GPG AI Assistant"
+                >
+
+
+                <div class="message-content welcome-message">
+
+
+                    <div class="message-title">
+
+                        <h2>
+                            GPG Admission Assistant
+                        </h2>
+
+                        <span
+                            class="verified-badge"
+                            title="Official Assistant"
+                        >
+                            ✓
+                        </span>
+
+                    </div>
+
+
+                    <div class="ai-text">
+
+                        <p>
+                            👋 Hello! Welcome to the
+                            <strong>GPG AI Admission Assistant.</strong>
+                        </p>
+
+                        <p>
+                            I can help you find information about
+                            courses, admission procedures, fees,
+                            eligibility, documents and more.
+                        </p>
+
+                        <p class="welcome-question">
+                            What would you like to know?
+                        </p>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         QUICK QUESTIONS
+                         ===================================== -->
+
+                    <div class="quick-questions">
+
+
+                        <button
+                            type="button"
+                            data-question="Which diploma courses are available?"
+                        >
+                            <span>🎓</span>
+                            Courses
+                        </button>
+
+
+                        <button
+                            type="button"
+                            data-question="What is the admission process?"
+                        >
+                            <span>📝</span>
+                            Admission
+                        </button>
+
+
+                        <button
+                            type="button"
+                            data-question="What documents are required for admission?"
+                        >
+                            <span>📄</span>
+                            Documents
+                        </button>
+
+
+                        <button
+                            type="button"
+                            data-question="What are the admission fees?"
+                        >
+                            <span>💰</span>
+                            Fees
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =================================================
+             INPUT SECTION
+             ================================================= -->
+
+        <footer class="input-section">
+
+
+            <!-- Voice status -->
+
+            <div
+                id="voice-status"
+                class="voice-status"
+                aria-live="polite"
+            >
+
+                <span class="voice-status-dot"></span>
+
+                Listening...
+
+            </div>
+
+
+            <div class="input-area">
+
+
+                <!-- =========================================
+                     LANGUAGE
+                     ========================================= -->
+
+                <div class="language-wrapper">
+
+
+                    <span
+                        class="language-icon"
+                        aria-hidden="true"
+                    >
+                        🌐
+                    </span>
+
+
+                    <select
+                        id="language-select"
+                        title="Select voice language"
+                        aria-label="Voice language"
+                    >
+
+                        <option value="en-IN">
+                            English
+                        </option>
+
+                        <option value="hi-IN">
+                            हिन्दी
+                        </option>
+
+                        <option value="gu-IN">
+                            ગુજરાતી
+                        </option>
+
+                    </select>
+
+
+                </div>
+
+
+                <!-- =========================================
+                     MICROPHONE
+                     ========================================= -->
+
+                <button
+                    id="voice-btn"
+                    class="voice-button"
+                    type="button"
+                    title="Start voice input"
+                    aria-label="Start voice input"
+                >
+                    🎙️
+                </button>
+
+
+                <!-- =========================================
+                     VOICE ANIMATION
+                     ========================================= -->
+
+                <div
+                    id="voice-animation"
+                    class="voice-animation"
+                    aria-hidden="true"
+                >
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </div>
+
+
+                <!-- =========================================
+                     TEXT INPUT
+                     ========================================= -->
+
+                <input
+                    type="text"
+                    id="user-input"
+                    placeholder="Ask about admissions..."
+                    autocomplete="off"
+                    aria-label="Ask your admission question"
+                >
+
+
+                <!-- =========================================
+                     SEND BUTTON
+                     ========================================= -->
+
+                <button
+                    id="send-btn"
+                    type="button"
+                    aria-label="Send message"
+                    title="Send message"
+                >
+
+                    <span aria-hidden="true">
+                        ➤
+                    </span>
+
+                </button>
+
+
+            </div>
+
+
+            <!-- =============================================
+                 FOOTER HINT
+                 ============================================= -->
+
+            <div class="input-hint">
+
+                <span>
+                    GPG AI Admission Assistant
+                </span>
+
+                <span>
+                    Enter ↵ to send
+                </span>
+
+            </div>
+
+
+        </footer>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         MARKED - MARKDOWN
+         ===================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+    ></script>
+
+
+    <!-- =====================================================
+         YOUR JAVASCRIPT
+         ===================================================== -->
+
+    <script
+        src="{{ url_for('static', filename='js/script.js') }}"
+    ></script>
+
+
+</body>
+
+</html>
+
