@@ -1,0 +1,12 @@
+{
+  "pdf_path": "D:\\MINOR PROJECT 5\\GPG admission AI assistant\\knowledge\\admission.pdf",
+  "pdf_sha256": "6731e64dd08511ce19feb5d4ebbb200ee63d8ac9b9656206e95b3df3d8d81ecf",
+  "embedding_model": "openai/text-embedding-3-small",
+  "collection": "gpg_admission",
+  "chunk_size": 700,
+  "chunk_overlap": 100,
+  "distance_metric": "cosine",
+  "normalized_embeddings": true,
+  "page_count": 14,
+  "chunk_count": 29
+}

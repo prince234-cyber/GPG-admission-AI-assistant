@@ -3,6 +3,20 @@ import json
 import os
 import shutil
 from pathlib import Path
+import math
+from openai import OpenAI
+from langchain_core.embeddings import Embeddings
+from dotenv import load_dotenv
+
+load_dotenv()
+
+PROJECT_DIR = Path(__file__).resolve().parent
+load_dotenv(PROJECT_DIR / ".env", override=False)
+
+# try:
+#     from langchain_huggingface import HuggingFaceEmbeddings
+# except ImportError:
+#     from langchain_community.embeddings import HuggingFaceEmbeddings
 
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -11,17 +25,17 @@ try:
 except ImportError:
     from langchain_community.vectorstores import Chroma
 
-try:
-    from langchain_huggingface import HuggingFaceEmbeddings
-except ImportError:
-    from langchain_community.embeddings import HuggingFaceEmbeddings
 
 PDF_PATH = os.getenv("PDF_PATH", "knowledge/admission.pdf")
 VECTOR_PATH = os.getenv("VECTOR_PATH", "vectorstore")
 INDEX_META_PATH = os.path.join(VECTOR_PATH, "index_meta.json")
 EMBEDDING_MODEL = os.getenv(
     "EMBEDDING_MODEL",
-    "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "openai/text-embedding-3-small",
+)
+
+EMBEDDING_DIMENSIONS = int(
+    os.getenv("EMBEDDING_DIMENSIONS", "1536")
 )
 RAG_TOP_K = int(os.getenv("RAG_TOP_K", "5"))
 MIN_RELEVANCE = float(os.getenv("RAG_MIN_RELEVANCE", "0.35"))
@@ -34,16 +48,81 @@ _db = None
 _index_hash = None
 
 
+
+class OpenRouterEmbeddings(Embeddings):
+    def __init__(self):
+        api_key = os.getenv("OPENROUTER_API_KEY")
+        if not api_key:
+            raise RuntimeError(
+                "OPENROUTER_API_KEY is missing"
+            )
+
+        self.client = OpenAI(
+            api_key=api_key,
+            base_url="https://openrouter.ai/api/v1",
+            timeout=45.0,
+            max_retries=2,
+        )
+
+    def embed_documents(self, texts):
+        vectors = []
+
+        for start in range(0, len(texts), 32):
+            batch = texts[start:start + 32]
+
+            response = self.client.embeddings.create(
+                model=EMBEDDING_MODEL,
+                input=batch,
+                dimensions=EMBEDDING_DIMENSIONS,
+            )
+
+            items = sorted(
+                response.data,
+                key=lambda item: item.index,
+            )
+
+            if len(items) != len(batch):
+                raise RuntimeError(
+                    "Unexpected embedding response length"
+                )
+
+            for item in items:
+                vector = item.embedding
+
+                if len(vector) != EMBEDDING_DIMENSIONS:
+                    raise RuntimeError(
+                        "Unexpected embedding dimensions"
+                    )
+
+                norm = math.sqrt(
+                    sum(value * value for value in vector)
+                )
+
+                if norm:
+                    vector = [value / norm for value in vector]
+
+                vectors.append(vector)
+
+        return vectors
+
+    def embed_query(self, text):
+        return self.embed_documents([text])[0]
+
+
+_embeddings = None
+_db = None
+_index_hash = None
+
+
 def _get_embeddings():
     global _embeddings
+
     if _embeddings is None:
-        print("[RAG] Loading embedding model:", EMBEDDING_MODEL)
-        _embeddings = HuggingFaceEmbeddings(
-            model_name=EMBEDDING_MODEL,
-            encode_kwargs={"normalize_embeddings": True},
-        )
-        print("[RAG] Embedding model loaded.")
+        print("[RAG] Initializing hosted embeddings client")
+        _embeddings = OpenRouterEmbeddings()
+
     return _embeddings
+
 
 
 def _sha256_file(path):

@@ -14,7 +14,7 @@ venv/
 env/
 
 # Vector database
-vectorstore/
+# Ignore alternate Chroma directories
 chroma_db/
 chroma_data/
 
