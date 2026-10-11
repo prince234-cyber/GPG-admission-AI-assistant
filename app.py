@@ -458,11 +458,11 @@ def chat():
             # CONVERT RETRIEVED PDF CHUNKS TO TEXT
             # ----------------------------------------------------
 
-            pdf_context = "\n\n".join(
-                chunk.page_content
-                if hasattr(chunk, "page_content")
-                else str(chunk)
-                for chunk in relevant_chunks
+           pdf_context = "\n\n".join(
+    chunk["text"]
+    for chunk in relevant_chunks
+    if chunk.get("text")
+)
             )
 
             print(
@@ -602,4 +602,4 @@ def chat():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug= False)
