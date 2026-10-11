@@ -13,11 +13,6 @@ load_dotenv()
 PROJECT_DIR = Path(__file__).resolve().parent
 load_dotenv(PROJECT_DIR / ".env", override=False)
 
-# try:
-#     from langchain_huggingface import HuggingFaceEmbeddings
-# except ImportError:
-#     from langchain_community.embeddings import HuggingFaceEmbeddings
-
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 try:

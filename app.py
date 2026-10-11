@@ -458,18 +458,16 @@ def chat():
             # CONVERT RETRIEVED PDF CHUNKS TO TEXT
             # ----------------------------------------------------
 
-           pdf_context = "\n\n".join(
-    chunk["text"]
-    for chunk in relevant_chunks
-    if chunk.get("text")
-)
+            pdf_context = "\n\n".join(
+                chunk["text"]
+                for chunk in relevant_chunks
+                if chunk.get("text")
             )
 
             print(
                 "[PDF CONTEXT] Characters:",
-                len(pdf_context)
+                len(pdf_context),
             )
-
 
             pdf_result = answer_from_pdf(
                 user_message,
