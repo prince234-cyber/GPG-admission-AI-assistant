@@ -17,6 +17,13 @@
 
     <title>GPG AI Admission Assistant</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}"
@@ -105,104 +112,67 @@
                  INITIAL AI MESSAGE
                  ============================================= -->
 
-            <div class="message bot-message">
+            <section class="welcome-panel" aria-labelledby="welcome-title">
+                <div class="welcome-copy">
+                    <p class="welcome-eyebrow">GPG ADMISSIONS</p>
+                    <h2 id="welcome-title">Hello! Welcome to the GPG AI Admission Assistant <span>👋</span></h2>
+                    <p>Find guidance on courses, admission, fees, eligibility and more.</p>
+                </div>
+                <img
+                    src="{{ url_for('static', filename='images/welcome ai.png') }}"
+                    class="welcome-bot"
+                    alt="GPG AI assistant"
+                >
+            </section>
 
+            <div class="quick-questions" aria-label="Popular admission topics">
+                <button class="topic-card topic-courses" type="button" data-question="Which diploma courses are available?">
+                    <span class="topic-icon" aria-hidden="true">▣</span>
+                    <span class="topic-copy"><strong>Courses</strong><small>Explore available courses</small></span>
+                    <span class="topic-arrow" aria-hidden="true">›</span>
+                </button>
+                <button class="topic-card topic-process" type="button" data-question="What is the admission process?">
+                    <span class="topic-icon" aria-hidden="true">↗</span>
+                    <span class="topic-copy"><strong>Admission Process</strong><small>Step-by-step guidance</small></span>
+                    <span class="topic-arrow" aria-hidden="true">›</span>
+                </button>
+                <button class="topic-card topic-fees" type="button" data-question="What are the admission fees?">
+                    <span class="topic-icon" aria-hidden="true">₹</span>
+                    <span class="topic-copy"><strong>Fees</strong><small>Fee structure and payment</small></span>
+                    <span class="topic-arrow" aria-hidden="true">›</span>
+                </button>
+                <button class="topic-card topic-documents" type="button" data-question="What documents are required for admission?">
+                    <span class="topic-icon" aria-hidden="true">▤</span>
+                    <span class="topic-copy"><strong>Required Documents</strong><small>List of necessary documents</small></span>
+                    <span class="topic-arrow" aria-hidden="true">›</span>
+                </button>
+                <button class="topic-card topic-eligibility" type="button" data-question="What are the eligibility criteria for admission?">
+                    <span class="topic-icon" aria-hidden="true">✓</span>
+                    <span class="topic-copy"><strong>Eligibility</strong><small>Check your criteria</small></span>
+                    <span class="topic-arrow" aria-hidden="true">›</span>
+                </button>
+                <button class="topic-card topic-dates" type="button" data-question="What are the important admission dates?">
+                    <span class="topic-icon" aria-hidden="true">▦</span>
+                    <span class="topic-copy"><strong>Important Dates</strong><small>Key dates and schedule</small></span>
+                    <span class="topic-arrow" aria-hidden="true">›</span>
+                </button>
+            </div>
 
+            <div class="message bot-message welcome-greeting">
                 <img
                     src="{{ url_for('static', filename='images/bot.png') }}"
                     class="avatar"
                     alt="GPG AI Assistant"
                 >
-
-
-                <div class="message-content welcome-message">
-
-
+                <div class="message-content">
                     <div class="message-title">
-
-                        <h2>
-                            GPG Admission Assistant
-                        </h2>
-
-                        <span
-                            class="verified-badge"
-                            title="Official Assistant"
-                        >
-                            ✓
-                        </span>
-
+                        <h2>GPG Admission Assistant</h2>
+                        <span class="verified-badge" title="Official Assistant">✓</span>
                     </div>
-
-
                     <div class="ai-text">
-
-                        <p>
-                            👋 Hello! Welcome to the
-                            <strong>GPG AI Admission Assistant.</strong>
-                        </p>
-
-                        <p>
-                            I can help you find information about
-                            courses, admission procedures, fees,
-                            eligibility, documents and more.
-                        </p>
-
-                        <p class="welcome-question">
-                            What would you like to know?
-                        </p>
-
+                        <p>Hi! Ask me anything about admissions, or choose a topic above to get started.</p>
                     </div>
-
-
-                    <!-- =====================================
-                         QUICK QUESTIONS
-                         ===================================== -->
-
-                    <div class="quick-questions">
-
-
-                        <button
-                            type="button"
-                            data-question="Which diploma courses are available?"
-                        >
-                            <span>🎓</span>
-                            Courses
-                        </button>
-
-
-                        <button
-                            type="button"
-                            data-question="What is the admission process?"
-                        >
-                            <span>📝</span>
-                            Admission
-                        </button>
-
-
-                        <button
-                            type="button"
-                            data-question="What documents are required for admission?"
-                        >
-                            <span>📄</span>
-                            Documents
-                        </button>
-
-
-                        <button
-                            type="button"
-                            data-question="What are the admission fees?"
-                        >
-                            <span>💰</span>
-                            Fees
-                        </button>
-
-
-                    </div>
-
-
                 </div>
-
-
             </div>
 
 
@@ -232,6 +202,8 @@
 
 
             <div class="input-area">
+
+                <div class="composer-tools">
 
 
                 <!-- =========================================
@@ -307,6 +279,12 @@
                 </div>
 
 
+                 </div>
+
+
+                 <div class="message-composer">
+
+
                 <!-- =========================================
                      TEXT INPUT
                      ========================================= -->
@@ -336,6 +314,9 @@
                     </span>
 
                 </button>
+
+
+                </div>
 
 
             </div>
