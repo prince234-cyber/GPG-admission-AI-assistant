@@ -2133,6 +2133,14 @@ body {
     visibility: hidden;
 }
 
+.ai-disclaimer {
+    margin: 5px 0 0;
+    color: #7b8998;
+    font-size: 9px;
+    line-height: 1.4;
+    text-align: center;
+}
+
 @media (max-width: 560px) {
     body {
         min-height: 100dvh;
